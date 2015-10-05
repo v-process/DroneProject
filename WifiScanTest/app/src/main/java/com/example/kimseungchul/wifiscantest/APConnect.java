@@ -26,7 +26,7 @@ public class APConnect extends Activity{
 
             WifiConfiguration wfc = new WifiConfiguration();
 
-            wfc.SSID = "\"".concat("SoMa Center").concat("\"");
+            wfc.SSID = "\"".concat("안녕").concat("\"");
             wfc.status = WifiConfiguration.Status.DISABLED;
             wfc.priority = 40;
 
@@ -81,7 +81,7 @@ public class APConnect extends Activity{
             if (wInfo.getSSID().equals(wfc.SSID)) {
                 Log.i("tag", "is connect:"+wfMgr.enableNetwork(networkId, false));
                 Toast.makeText(this, "성공입니다.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(APConnect.this,MapsActivity.class);
+                Intent intent = new Intent(APConnect.this, MapsActivity.class);
                 startActivity(intent);
                 finish();
 
