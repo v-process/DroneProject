@@ -52,7 +52,7 @@
         <activity
             android:name=".MapsActivity"
             android:screenOrientation="landscape"
-
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:label="@string/title_activity_google_map" >
         </activity>
         <activity android:name=".Simulation"

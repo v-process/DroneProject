@@ -23,11 +23,12 @@ public class MapsActivity extends FragmentActivity {
     public int flag = 0;
 
 
-    RelativeLayout layout_joystick;
+    RelativeLayout layout_joystickR, layout_joystickL;
     ImageView image_joystick, image_border;
-    TextView textView1, textView2, textView3, textView4, textView5;
+    TextView textViewR_1, textViewR_2, textViewR_3, textViewR_4, textViewR_5;
+    TextView textViewL_1, textViewL_2, textViewL_3, textViewL_4, textViewL_5;
 
-    JoyStickClass js;
+    JoyStickClass js_r, js_l;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,58 +36,116 @@ public class MapsActivity extends FragmentActivity {
         setContentView(R.layout.activity_buttonmap);
         setUpMapIfNeeded();
 
-        textView1 = (TextView)findViewById(R.id.textView1);
-        textView2 = (TextView)findViewById(R.id.textView2);
-        textView3 = (TextView)findViewById(R.id.textView3);
-        textView4 = (TextView)findViewById(R.id.textView4);
-        textView5 = (TextView)findViewById(R.id.textView5);
+        textViewR_1 = (TextView)findViewById(R.id.textViewR_1);
+        textViewR_2 = (TextView)findViewById(R.id.textViewR_2);
+        textViewR_3 = (TextView)findViewById(R.id.textViewR_3);
+        textViewR_4 = (TextView)findViewById(R.id.textViewR_4);
+        textViewR_5 = (TextView)findViewById(R.id.textViewR_5);
+        textViewL_1 = (TextView)findViewById(R.id.textViewL_1);
+        textViewL_2 = (TextView)findViewById(R.id.textViewL_2);
+        textViewL_3 = (TextView)findViewById(R.id.textViewL_3);
+        textViewL_4 = (TextView)findViewById(R.id.textViewL_4);
+        textViewL_5 = (TextView)findViewById(R.id.textViewL_5);
 
-        layout_joystick = (RelativeLayout)findViewById(R.id.layout_joystick);
+        layout_joystickR = (RelativeLayout)findViewById(R.id.layout_joystickR);
+        layout_joystickL = (RelativeLayout)findViewById(R.id.layout_joystickL);
 
-        js = new JoyStickClass(getApplicationContext()
-                , layout_joystick, R.drawable.image_button);
-        js.setStickSize(80, 80);
-        js.setLayoutSize(400, 400);
-        js.setLayoutAlpha(150);
-        js.setStickAlpha(100);
-        js.setOffset(90);
-        js.setMinimumDistance(50);
-        layout_joystick.setOnTouchListener(new View.OnTouchListener() {
+        js_r = new JoyStickClass(getApplicationContext()
+                , layout_joystickR, R.drawable.image_button);
+
+
+        js_r.setStickSize(80, 80);
+        js_r.setLayoutSize(400, 400);
+        js_r.setLayoutAlpha(150);
+        js_r.setStickAlpha(100);
+        js_r.setOffset(90);
+        js_r.setMinimumDistance(50);
+        layout_joystickR.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View arg0, MotionEvent arg1) {
-                js.drawStick(arg1);
+                js_r.drawStick(arg1);
                 if (arg1.getAction() == MotionEvent.ACTION_DOWN
                         || arg1.getAction() == MotionEvent.ACTION_MOVE) {
-                    textView1.setText("X : " + String.valueOf(js.getX()));
-                    textView2.setText("Y : " + String.valueOf(js.getY()));
-                    textView3.setText("Angle : " + String.valueOf(js.getAngle()));
-                    textView4.setText("Distance : " + String.valueOf(js.getDistance()));
+                    textViewR_1.setText("X : " + String.valueOf(js_r.getX()));
+                    textViewR_2.setText("Y : " + String.valueOf(js_r.getY()));
+                    textViewR_3.setText("Angle : " + String.valueOf(js_r.getAngle()));
+                    textViewR_4.setText("Distance : " + String.valueOf(js_r.getDistance()));
 
-                    int direction = js.get8Direction();
+                    int direction = js_r.get8Direction();
                     if (direction == JoyStickClass.STICK_UP) {
-                        textView5.setText("Direction : Up");
+                        textViewR_5.setText("Direction : Up");
                     } else if (direction == JoyStickClass.STICK_UPRIGHT) {
-                        textView5.setText("Direction : Up Right");
+                        textViewR_5.setText("Direction : Up Right");
                     } else if (direction == JoyStickClass.STICK_RIGHT) {
-                        textView5.setText("Direction : Right");
+                        textViewR_5.setText("Direction : Right");
                     } else if (direction == JoyStickClass.STICK_DOWNRIGHT) {
-                        textView5.setText("Direction : Down Right");
+                        textViewR_5.setText("Direction : Down Right");
                     } else if (direction == JoyStickClass.STICK_DOWN) {
-                        textView5.setText("Direction : Down");
+                        textViewR_5.setText("Direction : Down");
                     } else if (direction == JoyStickClass.STICK_DOWNLEFT) {
-                        textView5.setText("Direction : Down Left");
+                        textViewR_5.setText("Direction : Down Left");
                     } else if (direction == JoyStickClass.STICK_LEFT) {
-                        textView5.setText("Direction : Left");
+                        textViewR_5.setText("Direction : Left");
                     } else if (direction == JoyStickClass.STICK_UPLEFT) {
-                        textView5.setText("Direction : Up Left");
+                        textViewR_5.setText("Direction : Up Left");
                     } else if (direction == JoyStickClass.STICK_NONE) {
-                        textView5.setText("Direction : Center");
+                        textViewR_5.setText("Direction : Center");
                     }
                 } else if (arg1.getAction() == MotionEvent.ACTION_UP) {
-                    textView1.setText("X :");
-                    textView2.setText("Y :");
-                    textView3.setText("Angle :");
-                    textView4.setText("Distance :");
-                    textView5.setText("Direction :");
+                    textViewR_1.setText("X :");
+                    textViewR_2.setText("Y :");
+                    textViewR_3.setText("Angle :");
+                    textViewR_4.setText("Distance :");
+                    textViewR_5.setText("Direction :");
+                }
+                return true;
+            }
+        });
+
+        js_l = new JoyStickClass(getApplicationContext()
+                , layout_joystickL, R.drawable.image_button);
+
+        js_l.setStickSize(80, 80);
+        js_l.setLayoutSize(400, 400);
+        js_l.setLayoutAlpha(150);
+        js_l.setStickAlpha(100);
+        js_l.setOffset(90);
+        js_l.setMinimumDistance(50);
+        layout_joystickL.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+                js_l.drawStick(arg1);
+                if (arg1.getAction() == MotionEvent.ACTION_DOWN
+                        || arg1.getAction() == MotionEvent.ACTION_MOVE) {
+                    textViewL_1.setText("X : " + String.valueOf(js_l.getX()));
+                    textViewL_2.setText("Y : " + String.valueOf(js_l.getY()));
+                    textViewL_3.setText("Angle : " + String.valueOf(js_l.getAngle()));
+                    textViewL_4.setText("Distance : " + String.valueOf(js_l.getDistance()));
+
+                    int direction = js_l.get8Direction();
+                    if(direction == JoyStickClass.STICK_UP) {
+                        textViewL_5.setText("Direction : Up");
+                    } else if(direction == JoyStickClass.STICK_UPRIGHT) {
+                        textViewL_5.setText("Direction : Up Right");
+                    } else if(direction == JoyStickClass.STICK_RIGHT) {
+                        textViewL_5.setText("Direction : Right");
+                    } else if(direction == JoyStickClass.STICK_DOWNRIGHT) {
+                        textViewL_5.setText("Direction : Down Right");
+                    } else if(direction == JoyStickClass.STICK_DOWN) {
+                        textViewL_5.setText("Direction : Down");
+                    } else if(direction == JoyStickClass.STICK_DOWNLEFT) {
+                        textViewL_5.setText("Direction : Down Left");
+                    } else if(direction == JoyStickClass.STICK_LEFT) {
+                        textViewL_5.setText("Direction : Left");
+                    } else if(direction == JoyStickClass.STICK_UPLEFT) {
+                        textViewL_5.setText("Direction : Up Left");
+                    } else if(direction == JoyStickClass.STICK_NONE) {
+                        textViewL_5.setText("Direction : Center");
+                    }
+                } else if(arg1.getAction() == MotionEvent.ACTION_UP) {
+                    textViewL_1.setText("X :");
+                    textViewL_2.setText("Y :");
+                    textViewL_3.setText("Angle :");
+                    textViewL_4.setText("Distance :");
+                    textViewL_5.setText("Direction :");
                 }
                 return true;
             }
