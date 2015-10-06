@@ -13,6 +13,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+
     <!--
  The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but are recommended.
@@ -31,12 +36,12 @@
 
         <activity
             android:name=".APConnect"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:label="@string/app_name"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            >
+
         </activity>
         <activity android:name=".MainActivity" >
         </activity>
@@ -58,6 +63,17 @@
         <activity android:name=".Simulation"
             android:screenOrientation="landscape"
             >
+
+        </activity>
+        <activity android:name=".TitleActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
     </application>

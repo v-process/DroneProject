@@ -1,6 +1,8 @@
 package com.example.kimseungchul.wifiscantest;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,7 @@ public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     public int flag = 0;
+    public int checkaddress = 0;
 
 
     RelativeLayout layout_joystickR, layout_joystickL;
@@ -186,25 +189,70 @@ public class MapsActivity extends FragmentActivity {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
 
+                    //다이얼로그 띄우기
+                    AlertDialog.Builder alert_confirm = new AlertDialog.Builder(MapsActivity.this);
+                    alert_confirm.setMessage("최종지점으로 지정하시겠습니까?").setCancelable(false).setPositiveButton("확인",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // 'YES'
+                                    flag = 1;
+
+
+                                    return;
+                                }
+                            }).setNegativeButton("취소",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // 'No'
+                                    flag = 0;
+                                    return;
+                                }
+                            });
+                    AlertDialog alert = alert_confirm.create();
+                   // alert.show();
+
+
 
                     MarkerOptions markerOptions = new MarkerOptions();
                     //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.soma));
-                    //if(flag == 0) {
-
-                        markerOptions.position(latLng); //마커위치설정
-                        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));   // 마커생성위치로 이동
-                        mMap.addMarker(markerOptions); //마커 생성
-                        flag = 1;
-                        Log.i("tag", "클릭한 지점:" + latLng);
-//                    }
-//                    else{
-//                        mMap.clear();
-//                        //현재위치 가져와서 찍고
-//                        //랜스값 찍고.
-//                        flag = 0;
-//                    }
+//                    if(flag == 0) {
 //
-                }
+//                        markerOptions.position(latLng); //마커위치설정
+//                        //mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));   // 마커생성위치로 이동
+//                        mMap.addMarker(markerOptions); //마커 생성
+//                        flag = 1;
+//                        Log.i("tag", "클릭한 지점:" + latLng);
+//                    }
+
+
+
+                        //flag = 0;
+
+
+
+                       // if(flag == 1) {
+                            mMap.clear();
+                            //현재위치
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(37.503946, 127.044800)).title("SoMaCenter입니다."));
+
+
+                            //랜스값 찍고.
+                            markerOptions.position(latLng); //마커위치설정
+
+                            mMap.addMarker(markerOptions); //마커 생성
+
+                            flag = 0;
+                      //  }
+
+//                        else{
+//
+//                        }
+
+                    }
+
+
             });
 
             // Check if we were successful in obtaining the map.
@@ -224,6 +272,7 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
+        //여긴 현재위치 찍어야해
         mMap.addMarker(new MarkerOptions().position(new LatLng(37.503946, 127.044800)).title("SoMaCenter입니다."));
         LatLng startingPoint = new LatLng(37.503946, 127.044800);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startingPoint, 16));

@@ -8,6 +8,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
@@ -22,6 +23,12 @@ public class APConnect extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.apconnect);
 
+
+
+    }
+
+
+    public void flight_func(View view) {
         try{
 
             WifiConfiguration wfc = new WifiConfiguration();
@@ -52,30 +59,30 @@ public class APConnect extends Activity{
 
             int networkId = -1;
 
-//설정된 config 불러와서 있으면 network id를 가져옵니다.
-            for(WifiConfiguration wifiConfig : configList){
-                Log.d("tag", "wifiConfig.SSID:" + wifiConfig.SSID);
-                if(wifiConfig.SSID.equals(wfc.SSID)){
-                    networkId = wifiConfig.networkId;
-                    ssid = wifiConfig.SSID;
-                    Log.i("tag", "found network id:"+ssid);
-                    isConfigured = true;
-                    break;
-                }
-            }
+//            //설정된 config 불러와서 있으면 network id를 가져옵니다.
+//            for(WifiConfiguration wifiConfig : configList){
+//                Log.d("tag", "wifiConfig.SSID:" + wifiConfig.SSID);
+//                if(wifiConfig.SSID.equals(wfc.SSID)){
+//                    networkId = wifiConfig.networkId;
+//                    ssid = wifiConfig.SSID;
+//                    Log.i("tag", "found network id:"+ssid);
+//                    isConfigured = true;
+//                    break;
+//                }
+//            }
+//
+//            // 설정되지 않았다면 wfc 값으로 설정하여 추가합니다.
+//
+//            if (!isConfigured) {
+//                networkId = wfMgr.addNetwork(wfc);
+//
+//            // 설정한 값을 저장합니다.
+//                wfMgr.saveConfiguration();
+//            }
 
-// 설정되지 않았다면 wfc 값으로 설정하여 추가합니다.
-
-            if (!isConfigured) {
-                networkId = wfMgr.addNetwork(wfc);
-
-// 설정한 값을 저장합니다.
-                wfMgr.saveConfiguration();
-            }
 
 
-
-            Log.i("tag", "networkId:"+networkId);
+ //           Log.i("tag", "networkId:"+networkId);
 
             // 연결하면 true로 리턴되는데 실제로는 연결이 안되어 있습니다.
             if (wInfo.getSSID().equals(wfc.SSID)) {
@@ -93,8 +100,5 @@ public class APConnect extends Activity{
         }catch(Exception e){
             Log.e("tag", e.getMessage(), e);
         }
-
     }
-
-
 }
