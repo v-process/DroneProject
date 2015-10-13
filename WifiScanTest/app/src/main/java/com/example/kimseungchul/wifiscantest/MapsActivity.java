@@ -2,15 +2,28 @@ package com.example.kimseungchul.wifiscantest;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,12 +31,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.Vector;
 
 public class MapsActivity extends FragmentActivity {
-
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     public int flag = 0;
-    public int checkaddress = 0;
 
 
     RelativeLayout layout_joystickR, layout_joystickL;
@@ -33,11 +48,13 @@ public class MapsActivity extends FragmentActivity {
 
     JoyStickClass js_r, js_l;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buttonmap);
-        setUpMapIfNeeded();
+
 
         textViewR_1 = (TextView)findViewById(R.id.textViewR_1);
         textViewR_2 = (TextView)findViewById(R.id.textViewR_2);
@@ -52,6 +69,26 @@ public class MapsActivity extends FragmentActivity {
 
         layout_joystickR = (RelativeLayout)findViewById(R.id.layout_joystickR);
         layout_joystickL = (RelativeLayout)findViewById(R.id.layout_joystickL);
+
+
+
+
+        joystick_func();
+
+
+
+
+
+       // load GPS( GPS 로 부터 현재의 내 위치값 가져오기 )
+        setUpMapIfNeeded();
+
+    }
+
+
+
+
+    public void joystick_func(){
+
 
         js_r = new JoyStickClass(getApplicationContext()
                 , layout_joystickR, R.drawable.image_button);
@@ -235,9 +272,26 @@ public class MapsActivity extends FragmentActivity {
                        // if(flag == 1) {
                             mMap.clear();
                             //현재위치
-                            mMap.addMarker(new MarkerOptions().position(new LatLng(37.503946, 127.044800)).title("SoMaCenter입니다."));
+                    //mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.currentlocation)).position(new LatLng(latLng_s.latitude, latLng_s.longitude)).title("현재위치입니다.."));
 
 
+                    GpsInfo gps = new GpsInfo(MapsActivity.this);
+                    // GPS 사용유무 가져오기
+                    if (gps.isGetLocation()) {
+                        Log.d("connect", "성공.....");
+
+                        double latitude = gps.getLatitude();
+                        double longitude = gps.getLongitude();
+
+                        // Creating a LatLng object for the current location
+                        LatLng latLng_s = new LatLng(latitude, longitude);
+
+                        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.currentlocation)).position(new LatLng(latLng_s.latitude, latLng_s.longitude)).title("현재위치입니다.."));
+
+
+                    }
+
+                    Toast.makeText(getApplication(), "도착 지점이 설정되었습니다.", Toast.LENGTH_SHORT).show();
                             //랜스값 찍고.
                             markerOptions.position(latLng); //마커위치설정
 
@@ -272,9 +326,46 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        //여긴 현재위치 찍어야해
-        mMap.addMarker(new MarkerOptions().position(new LatLng(37.503946, 127.044800)).title("SoMaCenter입니다."));
-        LatLng startingPoint = new LatLng(37.503946, 127.044800);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startingPoint, 16));
+        GpsInfo gps = new GpsInfo(MapsActivity.this);
+
+        // GPS 사용유무 가져오기
+        if (gps.isGetLocation()) {
+            Log.d("connect", "성공.....");
+
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+
+// Creating a LatLng object for the current location
+            LatLng latLng_s = new LatLng(latitude, longitude);
+
+            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.currentlocation)).position(new LatLng(latLng_s.latitude, latLng_s.longitude)).title("현재위치입니다.."));
+            LatLng startingPoint = new LatLng(latLng_s.latitude, latLng_s.longitude);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startingPoint, 16));
+
+        }
+
+
+    else {
+
+            //Log.d("Connect", "sdnklasdnkldsa늬의의의느이ㅡ이능ㅇ!@@@@@@@@@@@"+location);
+
+            //여긴 현재위치 찍어야해
+//            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.soma)).position(new LatLng(location.getLatitude(), location.getLongitude())).title("현재위치입니다.."));
+//            LatLng startingPoint = new LatLng(location.getLatitude(), location.getLongitude());
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startingPoint, 16));
+            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.currentlocation)).position(new LatLng(37.503946, 127.044800)).title("현재위치입니다.."));
+            LatLng startingPoint = new LatLng(37.503946, 127.044800);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startingPoint, 16));
+
+            Log.d("notConnect", "잘못걸렷네..");
+
+            gps.showSettingsAlert();
+
+        }
+
+
+
     }
+
+
 }
