@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="232dp"
         android:orientation="horizontal"
         android:layout_marginTop="30dp"
         >
@@ -15,28 +15,64 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
-        <TextView
-            android:id="@+id/roll_text"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="40dp"
-            android:text="roll"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/pitch_text"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            >
+            <TextView
+                android:id="@+id/roll_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="70dp"
+                android:text="roll"
+                />
+            <TextView
+                android:id="@+id/roll"
+                android:textSize="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="data"/>
+         </LinearLayout>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="40dp"
-            android:text="pitch"
-            android:layout_weight="1"/>
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/pitch_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="70dp"
+                android:text="pitch"
+                />
+            <TextView
+                android:id="@+id/pitch"
+                android:textSize="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="data"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
         <TextView
             android:id="@+id/yaw_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="40dp"
+            android:textSize="70dp"
             android:text="yaw"
-            android:layout_weight="1"/>
+            />
+            <TextView
+                android:id="@+id/yaw"
+                android:textSize="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="data"/>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,21 +90,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="KP "
+                    android:textSize="70dp"
+                    android:id="@+id/kp_text"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30dp"
+                    android:textSize="60dp"
                     android:gravity="center"
-                    android:text="KP"
-                    android:id="@+id/kp_text"
+                    android:text="data"
+                    android:layout_toRightOf="@+id/kp_text"
+                    android:layout_alignBottom="@+id/kp_text"
+                    android:id="@+id/kp"
                     android:layout_weight="1"
                     />
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/kp_text"
-                    android:layout_alignBottom="@+id/kp_text"
+                    android:layout_toRightOf="@+id/kp"
+                    android:layout_alignBottom="@+id/kp"
+                    android:layout_alignTop="@+id/kp"
+
                     android:id="@+id/up_btn"
                     android:text="UP"/>
                 <Button
@@ -76,7 +122,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/up_btn"
-                    android:layout_alignBottom="@+id/kp_text"
+                    android:layout_alignTop="@+id/kp"
+                    android:layout_alignBottom="@+id/kp"
                     android:text="Down"/>
             </RelativeLayout>
             <RelativeLayout
@@ -87,16 +134,26 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30dp"
-                    android:text="KI"
-                    android:id="@+id/ki_text"
+                    android:text="KI "
+                    android:textSize="70dp"
+                    android:id="@+id/ki_text"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="60dp"
+                    android:text="data"
+                    android:id="@+id/ki"
+                    android:layout_alignBottom="@+id/ki_text"
+                    android:layout_toRightOf="@+id/ki_text"
                     android:layout_weight="1"
                     />
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/ki_text"
-                    android:layout_alignBottom="@+id/ki_text"
+                    android:layout_toRightOf="@+id/ki"
+                    android:layout_alignBottom="@+id/ki"
+                    android:layout_alignTop="@+id/ki"
                     android:id="@+id/up_btn2"
                     android:layout_marginLeft="10dp"
                     android:text="UP"/>
@@ -105,28 +162,40 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/up_btn2"
-                    android:layout_alignBottom="@+id/ki_text"
+                    android:layout_alignTop="@+id/ki"
+                    android:layout_alignBottom="@+id/ki"
                     android:text="Down"/>
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30dp"
+                    android:text="KD "
+                    android:textSize="70dp"
+                    android:id="@+id/kd_text"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="60dp"
+                    android:layout_toRightOf="@+id/kd_text"
+                    android:layout_alignBottom="@+id/kd_text"
                     android:gravity="center"
-                    android:text="KD"
-                    android:id="@+id/kd_text"
+                    android:text="data"
+                    android:id="@+id/kd"
                     android:layout_weight="1"
 
                     />
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/kd_text"
-                    android:layout_alignBottom="@+id/kd_text"
+                    android:layout_toRightOf="@+id/kd"
+                    android:layout_alignBottom="@+id/kd"
+                    android:layout_alignTop="@+id/kd"
                     android:id="@+id/up_btn3"
                     android:text="UP"/>
                 <Button
@@ -134,7 +203,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/up_btn3"
-                    android:layout_alignBottom="@+id/kd_text"
+                    android:layout_alignTop="@+id/kd"
+                    android:layout_alignBottom="@+id/kd"
                     android:text="Down"/>
             </RelativeLayout>
         </LinearLayout>
@@ -148,12 +218,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
+
             <TextView
                 android:id="@+id/height_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textSize="30dp"
+                android:textSize="70dp"
                 android:text="height"
                 android:layout_weight="1"/>
             <TextView
@@ -161,7 +232,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textSize="30dp"
+                android:textSize="70dp"
                 android:text="throttle"
                 android:layout_weight="1"/>
 
@@ -176,12 +247,16 @@
                 android:id="@+id/start_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="100dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
                 android:text="Start"
                 android:layout_weight="1"/>
             <Button
                 android:id="@+id/stop_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="50dp"
                 android:text="Stop"
                 android:layout_weight="1"/>
         </LinearLayout>
