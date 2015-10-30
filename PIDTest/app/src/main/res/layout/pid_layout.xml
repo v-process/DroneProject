@@ -94,13 +94,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="KP "
-                    android:textSize="70dp"
+                    android:textSize="50dp"
                     android:id="@+id/kp_text"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="60dp"
+                    android:textSize="40dp"
                     android:gravity="center"
                     android:text="data"
                     android:layout_toRightOf="@+id/kp_text"
@@ -135,13 +135,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="KI "
-                    android:textSize="70dp"
+                    android:textSize="50dp"
                     android:id="@+id/ki_text"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="60dp"
+                    android:textSize="40dp"
                     android:text="data"
                     android:id="@+id/ki"
                     android:layout_alignBottom="@+id/ki_text"
@@ -175,13 +175,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="KD "
-                    android:textSize="70dp"
+                    android:textSize="50dp"
                     android:id="@+id/kd_text"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="60dp"
+                    android:textSize="40dp"
                     android:layout_toRightOf="@+id/kd_text"
                     android:layout_alignBottom="@+id/kd_text"
                     android:gravity="center"
@@ -214,27 +214,41 @@
             android:orientation="vertical"
             android:layout_weight="1"
             >
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/height_text"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="225dp"
                 android:gravity="center"
-                android:textSize="70dp"
-                android:text="height"
-                android:layout_weight="1"/>
-            <TextView
-                android:id="@+id/throttle_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textSize="70dp"
-                android:text="throttle"
-                android:layout_weight="1"/>
+                android:textSize="50dp"
+                android:text="height" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/throttle_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="50dp"
+                    android:text="throttle"
+                    android:layout_weight="1"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/up_btn4"
+                android:text="UP"
+                android:layout_gravity="center" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/down_btn4"
+                android:layout_gravity="center"
+                android:text="DOWN"/>
+            </LinearLayout>
 
         </LinearLayout>
         <LinearLayout
