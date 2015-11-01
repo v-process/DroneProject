@@ -108,6 +108,8 @@
                     android:id="@+id/kp"
                     android:layout_weight="1"
                     />
+
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -125,6 +127,24 @@
                     android:layout_alignTop="@+id/kp"
                     android:layout_alignBottom="@+id/kp"
                     android:text="Down"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UP_10"
+                    android:id="@+id/up1_10"
+                    android:layout_below="@+id/kp_text"
+                    android:layout_toRightOf="@+id/kp"
+                    android:layout_toEndOf="@+id/kp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/down1_10"
+                    android:text="DOWN_10"
+                    android:layout_below="@+id/up_btn"
+                    android:layout_toRightOf="@+id/up1_10"
+                    android:layout_toEndOf="@+id/up1_10" />
+
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -206,6 +226,22 @@
                     android:layout_alignTop="@+id/kd"
                     android:layout_alignBottom="@+id/kd"
                     android:text="Down"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/up3_10"
+                    android:text="UP_10"
+                    android:layout_below="@+id/up_btn3"
+                    android:layout_toLeftOf="@+id/down_btn3"
+                    android:layout_toStartOf="@+id/down_btn3" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DOWN_10"
+                    android:id="@+id/down3_10"
+                    android:layout_alignTop="@+id/up3_10"
+                    android:layout_toRightOf="@+id/up3_10"
+                    android:layout_toEndOf="@+id/up3_10" />
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout
@@ -248,6 +284,8 @@
                 android:id="@+id/down_btn4"
                 android:layout_gravity="center"
                 android:text="DOWN"/>
+
+
             </LinearLayout>
 
         </LinearLayout>

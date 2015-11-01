@@ -35,6 +35,10 @@ public class PIDTest extends Activity implements View.OnClickListener{
     Button down_btn3;
     Button up_btn4;
     Button down_btn4;
+    Button up1_btn10;
+    Button down1_btn10;
+    Button up3_btn10;
+    Button down3_btn10;
 
     Button start_btn;
     Button stop_btn;
@@ -52,7 +56,10 @@ public class PIDTest extends Activity implements View.OnClickListener{
     String[] arraydata;
     float[] ctrldata = new float[8];
 
-
+    int Kp_value = 0;
+    int Ki_value = 0;
+    int Kd_value = 0;
+    int Start_value = 100;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -86,6 +93,10 @@ public class PIDTest extends Activity implements View.OnClickListener{
         down_btn4 = (Button) findViewById(R.id.down_btn4);
         start_btn = (Button) findViewById(R.id.start_btn);
         stop_btn = (Button) findViewById(R.id.stop_btn);
+        up1_btn10 = (Button) findViewById(R.id.up1_10);
+        down1_btn10 = (Button) findViewById(R.id.down1_10);
+        up3_btn10 = (Button) findViewById(R.id.up3_10);
+        down3_btn10 = (Button) findViewById(R.id.down3_10);
 
         up_btn.setOnClickListener(this);
         down_btn.setOnClickListener(this);
@@ -97,9 +108,16 @@ public class PIDTest extends Activity implements View.OnClickListener{
         down_btn4.setOnClickListener(this);
         start_btn.setOnClickListener(this);
         stop_btn.setOnClickListener(this);
+        up1_btn10.setOnClickListener(this);
+        down1_btn10.setOnClickListener(this);
+        up3_btn10.setOnClickListener(this);
+        down3_btn10.setOnClickListener(this);
 
 
-
+        setdata[3].setText(String.valueOf(Kp_value));
+        setdata[4].setText(String.valueOf(Ki_value));
+        setdata[5].setText(String.valueOf(Kd_value));
+        setdata[7].setText(String.valueOf(Start_value));
 
         Thread worker = new Thread() {
             public void run() {
@@ -119,7 +137,7 @@ public class PIDTest extends Activity implements View.OnClickListener{
                         char[] in = new char[50];
                         socket_in.read(in, 0, in.length);
                         final String input = new String(in,0,in.length);
-                        Log.i("data12345", " " + input);
+                        Log.i("totaldata", " " + input);
 //                        arraydata = input.split(",");
 //                        dumpArray(arraydata);
 
@@ -140,6 +158,8 @@ public class PIDTest extends Activity implements View.OnClickListener{
                         kp_text.post(new Runnable() {
                             public void run() {
                                 //yaw_text.setText(String.valueOf(kp_data));
+                                Log.i("secondtotaldata", " " + input);
+
                                 arraydata = input.split(",");
                                 dumpArray(arraydata);
                             }
@@ -166,64 +186,147 @@ public class PIDTest extends Activity implements View.OnClickListener{
     public void dumpArray(String[] array) {
         for (int i = 0; i < array.length; i++) {
             System.out.format("array[%d] = %s%n", i, array[i]);
-            Log.i("data123", " " + array[i]);
+            Log.i("array", " " + array[i]);
         }
         settingData(array);
     }
 
     public void settingData(String[] array){
         for(int i = 0; i<array.length; i++){
+
+
+
             //적용
-            Log.i("test", " "+ array[i]);
-            setdata[i].setText(array[i]);
-            Log.i("test2", " " + array[i]);
+            //Log.i("test", " "+ array[i]);
+            //setdata[i].setText(array[i]);
+           //Log.i("test2", " " + array[i]);
 
             //ctrldata[i] = Float.valueOf(array[i]);
+
+
         }
+
+
+        if(array[2].equals("Angle")){
+            //이면 roll , pitch, yaw가 3, 4, 5에 들어가게
+            setdata[0].setText(array[3]);
+            setdata[1].setText(array[4]);
+            setdata[2].setText(array[5]);
+        }
+//        else if(array[2].equals("Value")){
+//            setdata[3].setText(array[3]);
+//            setdata[4].setText(array[4]);
+//            setdata[5].setText(array[5]);
+//            setdata[6].setText(array[6]);
+//        }
     }
 
     @Override
     public void onClick(View v) {
             if (v == up_btn) {
-                String data = "q";
-                socket_out.println(data);
+                Kp_value++;
+                double data = Kp_value * 0.01;
+                double result = Math.round(data*100d) / 100d;
+                setdata[3].setText(String.valueOf(result));
+                socket_out.println("P" + Kp_value + "*");
+
             }
             else if (v == down_btn) {
-                String data = "a";
-                socket_out.println(data);
+                Kp_value--;
+                double data = Kp_value * 0.01;
+                double result = Math.round(data*100d) / 100d;
+                setdata[3].setText(String.valueOf(result));
+                socket_out.println("P" + Kp_value + "*");
+
             }
             else if (v == up_btn2) {
-                String data = "w";
-                socket_out.println(data);
+                Ki_value++;
+                double data = Ki_value * 0.01;
+                double result = Math.round(data*100d) / 100d;
+                setdata[4].setText(String.valueOf(result));
+                socket_out.println("I"+Ki_value+"*");
             }
             else if (v == down_btn2) {
-                String data = "s";
-                socket_out.println(data);
+                Ki_value--;
+                double data = Ki_value * 0.01;
+                double result = Math.round(data*100d) / 100d;
+                setdata[4].setText(String.valueOf(result));
+                socket_out.println("I"+Ki_value+"*");
             }
             else if (v == up_btn3) {
-                String data = "e";
-                socket_out.println(data);
+                Kd_value++;
+                double data = Kd_value * 0.01;
+                double result = Math.round(data*100d) / 100d;
+                setdata[5].setText(String.valueOf(result));
+                socket_out.println("D"+Kd_value+"*");
             }
             else if (v == down_btn3) {
-                String data = "d";
-                socket_out.println(data);
+                Kd_value--;
+                double data = Kd_value * 0.01;
+                double result = Math.round(data*100d) / 100d;
+                setdata[5].setText(String.valueOf(result));
+                socket_out.println("D"+Kd_value+"*");
             }
             else if (v == start_btn) {
-                String data = "b";
-                socket_out.println(data);
+                Start_value = 3200;
+                int data = Start_value * 10;
+                setdata[7].setText(String.valueOf(data));
+                socket_out.println("T"+Start_value+"*");
             }
             else if (v == stop_btn) {
-                String data = "x";
-                socket_out.println(data);
+                Start_value = 100;
+                Kp_value = 0;
+                Ki_value = 0;
+                Kd_value = 0;
+
+                int data = Start_value * 10;
+                setdata[3].setText(String.valueOf(Kp_value));
+                setdata[4].setText(String.valueOf(Ki_value));
+                setdata[5].setText(String.valueOf(Kd_value));
+                setdata[7].setText(String.valueOf(data));
+                socket_out.println("T" + Start_value + "*");
+
             }
             else if (v == up_btn4) {
-                String data = "t";
-                socket_out.println(data);
+                Start_value += 10;
+                int data = Start_value * 10;
+                setdata[7].setText(String.valueOf(data));
+                socket_out.println("T" + Start_value + "*");
             }
 
             else if (v == down_btn4) {
-                String data = "g";
-                socket_out.println(data);
+                Start_value -= 10;
+                int data = Start_value * 10;
+                setdata[7].setText(String.valueOf(data));
+                socket_out.println("T"+Start_value+"*");
+            }
+            else if(v == up1_btn10){
+                Kp_value += 10;
+                double data = Kp_value * 0.01;
+                double result = Math.round(data*100d) / 100d;
+                setdata[3].setText(String.valueOf(result));
+                socket_out.println("P" + Kp_value + "*");
+            }
+            else if(v == down1_btn10){
+                Kp_value -= 10;
+                double data = Kp_value * 0.01;
+                double result = Math.round(data*100d) / 100d;
+                setdata[3].setText(String.valueOf(result));
+                socket_out.println("P" + Kp_value + "*");
+            }
+            else if(v == up3_btn10){
+                Kd_value += 10;
+                double data = Kd_value * 0.01;
+                double result = Math.round(data*100d) / 100d;
+                setdata[5].setText(String.valueOf(result));
+                socket_out.println("D" + Kd_value + "*");
+            }
+            else if(v == down3_btn10){
+                Kd_value -= 10;
+                double data = Kd_value * 0.01;
+                double result = Math.round(data*100d) / 100d;
+                setdata[5].setText(String.valueOf(result));
+                socket_out.println("D" + Kd_value + "*");
             }
 
     }
