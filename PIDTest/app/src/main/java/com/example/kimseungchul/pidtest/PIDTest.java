@@ -79,6 +79,8 @@ public class PIDTest extends Activity implements View.OnClickListener{
 
 
     int flag = 0;
+    String js_rC ;
+    String js_rS ;
     String js_rA ;
     String js_rD ;
 
@@ -157,7 +159,7 @@ public class PIDTest extends Activity implements View.OnClickListener{
         //flagsetting();
 
 
-        //onHandler1();
+        onHandler1();
 
         Thread worker = new Thread() {
             public void run() {
@@ -298,25 +300,32 @@ public class PIDTest extends Activity implements View.OnClickListener{
                 Log.d("angle", " "+ js_r.getAngle());
                 Log.d("distance", " "+ js_r.getDistance());
 
-                int ra = (int)(js_r.getAngle() * 0.2778);
-                int rd = (int)js_r.getDistance();
-
-
-                js_rA = String.valueOf(ra);
-
-                js_rD = String.valueOf(rd);
-
 
 //                js_rA = Double.toString(js_r.getAngle());
 //                js_rD = Double.toString(js_r.getDistance());
 
 
-                Log.d("angle2", " "+ js_rA);
-                Log.d("distance2", " " + js_rD);
+
+                int rd = (int)js_r.getDistance();
 
 
+                double cos = Math.cos(js_r.getAngle()) * 50 * rd;
+                double sin = Math.sin(js_r.getAngle()) * 50 * rd;
 
-                socket_out.println("A" + js_rA + "D" + js_rD + "A" + js_rA + "D" + js_rD);
+
+                int rs = (int)sin;
+                int rc = (int)cos;
+
+
+                js_rS = String.valueOf(rs);
+                js_rC = String.valueOf(rc);
+                js_rD = String.valueOf(rd);
+
+
+                socket_out.println("S"+js_rS+"*"+"C"+js_rC+"*");
+
+
+                //socket_out.println("A" + js_rA + "D" + js_rD + "A" + js_rA + "D" + js_rD);
                 //socket_out.println("D" + js_rD);
 
                 mHandler.postDelayed(r, 500);
@@ -433,7 +442,7 @@ public class PIDTest extends Activity implements View.OnClickListener{
                 socket_out.println("D"+Kd_value+"*");
             }
             else if (v == start_btn) {
-                Start_value = 3600;
+                Start_value = 3000;
                 int data = Start_value * 10;
                 setdata[7].setText(String.valueOf(data));
                 socket_out.println("T"+Start_value+"*");
