@@ -272,21 +272,55 @@
                     android:text="throttle"
                     android:layout_weight="1"/>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/up_btn4"
-                android:text="UP"
-                android:layout_gravity="center" />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/down_btn4"
-                android:layout_gravity="center"
-                android:text="DOWN"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/up_btn4"
+                    android:text="UP"
+                    android:layout_gravity="center" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/down_btn4"
+                    android:layout_gravity="center"
+                    android:text="DOWN"/>
 
 
             </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/layout_joystickR"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/image_button_bg"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true">
+                </RelativeLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/textViewR_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Angle"
+                android:textColor="#444444"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/textViewR_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distance"
+                android:textColor="#444444"
+                android:textSize="20dp" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         </LinearLayout>
         <LinearLayout
