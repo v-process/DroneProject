@@ -30,11 +30,11 @@ public class Simulation extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.simulation);
 
-        textViewR_1 = (TextView)findViewById(R.id.textViewR_1);
-        textViewR_2 = (TextView)findViewById(R.id.textViewR_2);
-        textViewR_3 = (TextView)findViewById(R.id.textViewR_3);
-        textViewR_4 = (TextView)findViewById(R.id.textViewR_4);
-        textViewR_5 = (TextView)findViewById(R.id.textViewR_5);
+//        textViewR_1 = (TextView)findViewById(R.id.textViewR_1);
+//        textViewR_2 = (TextView)findViewById(R.id.textViewR_2);
+//        textViewR_3 = (TextView)findViewById(R.id.textViewR_3);
+//        textViewR_4 = (TextView)findViewById(R.id.textViewR_4);
+//        textViewR_5 = (TextView)findViewById(R.id.textViewR_5);
 
         layout_joystick = (RelativeLayout)findViewById(R.id.layout_joystick);
 

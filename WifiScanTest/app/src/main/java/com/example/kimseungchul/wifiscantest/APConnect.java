@@ -1,7 +1,9 @@
 package com.example.kimseungchul.wifiscantest;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -29,11 +31,31 @@ public class APConnect extends Activity{
 
 
     public void flight_func(View view) {
+
+//        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(APConnect.this);
+//        alert_confirm.setMessage("GPS 설정창으로 이동하시겠습니까?").setCancelable(false).setPositiveButton("확인",
+//                new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        // 'YES'
+//                    }
+//                }).setNegativeButton("취소",
+//                new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        // 'No'
+//                        return;
+//                    }
+//                });
+//        AlertDialog alert = alert_confirm.create();
+//        alert.show();
+
+
         try{
 
             WifiConfiguration wfc = new WifiConfiguration();
 
-            wfc.SSID = "\"".concat("안녕").concat("\"");
+            wfc.SSID = "\"".concat("SoMa Center").concat("\"");
             wfc.status = WifiConfiguration.Status.DISABLED;
             wfc.priority = 40;
 

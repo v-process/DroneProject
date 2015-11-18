@@ -44,27 +44,38 @@
 
         </activity>
         <activity android:name=".MainActivity" >
+
+
+
         </activity>
 
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBpYf3RY0Gguv9L_7kYzsSad9Mnq5n8Z0w" />
+
+<!--배포키.
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDuJRHsjRVe2oDss8OiGMCFu4VqGd_oNVM" />
+
+-->
 
         <activity
             android:name=".MapsActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:label="@string/title_activity_google_map" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".Simulation"
             android:screenOrientation="landscape"
@@ -75,6 +86,15 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             >
+
+
+        </activity>
+        <activity android:name=".TCPsoketTest">
+
+
+        </activity>
+
+        <activity android:name=".NewSocket">
 
 
         </activity>

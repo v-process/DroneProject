@@ -1,7 +1,6 @@
 package com.example.kimseungchul.pidtest;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -44,7 +43,8 @@ public class PIDTest extends Activity implements View.OnClickListener{
     Button down1_btn10;
     Button up3_btn10;
     Button down3_btn10;
-    Button graph_btn;
+    //Button graph_btn;
+    Button landing_btn;
 
     Button start_btn;
     Button stop_btn;
@@ -73,16 +73,19 @@ public class PIDTest extends Activity implements View.OnClickListener{
     ArrayList<String> yawList;
 
     RelativeLayout layout_joystickR, layout_joystickL;
-    JoyStickClass js_r;
+    JoyStickClass js_r, js_l;
     TextView textViewR_3;
     TextView textViewR_4;
 
 
     int flag = 0;
+    int flag_l = 0;
     String js_rC ;
     String js_rS ;
-    String js_rA ;
     String js_rD ;
+    String js_lC ;
+    String js_lS ;
+    String js_lD ;
 
 
     @Override
@@ -126,6 +129,7 @@ public class PIDTest extends Activity implements View.OnClickListener{
         up3_btn10 = (Button) findViewById(R.id.up3_10);
         down3_btn10 = (Button) findViewById(R.id.down3_10);
         //graph_btn = (Button) findViewById(R.id.graph);
+        landing_btn = (Button) findViewById(R.id.landing_btn);
 
         up_btn.setOnClickListener(this);
         down_btn.setOnClickListener(this);
@@ -142,6 +146,7 @@ public class PIDTest extends Activity implements View.OnClickListener{
         up3_btn10.setOnClickListener(this);
         down3_btn10.setOnClickListener(this);
         //graph_btn.setOnClickListener(this);
+        landing_btn.setOnClickListener(this);
 
         setdata[3].setText(String.valueOf(Kp_value));
         setdata[4].setText(String.valueOf(Ki_value));
@@ -153,6 +158,8 @@ public class PIDTest extends Activity implements View.OnClickListener{
         yawList = new ArrayList<String>();
 
         layout_joystickR = (RelativeLayout)findViewById(R.id.layout_joystickR);
+        layout_joystickL = (RelativeLayout)findViewById(R.id.layout_joystickL);
+
         joystick_func();
 
 
@@ -218,28 +225,7 @@ public class PIDTest extends Activity implements View.OnClickListener{
 
 
     }
-    public void flagsetting() {
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                if (flag == 1) {
-                    js_r = new JoyStickClass(getApplicationContext()
-                            , layout_joystickR, R.drawable.image_button);
-                    float js_rA = js_r.getAngle();
-                    float js_rD = js_r.getDistance();
-                    Log.d("Angle", " " + js_rA);
-                    Log.d("Distance", " " + js_rD);
-//                    socket_out.println("A2:" + (int) js_rA);
-//                    socket_out.println("D2:" + (int) js_rD);
-
-                    flag = 0;
-                }
-                finish();
-            }
-        }, 2000);
-
-    }
 
 
     public void joystick_func() {
@@ -250,7 +236,7 @@ public class PIDTest extends Activity implements View.OnClickListener{
 
 
         js_r.setStickSize(80, 80);
-        js_r.setLayoutSize(400, 400);
+        js_r.setLayoutSize(500, 500);
         js_r.setLayoutAlpha(150);
         js_r.setStickAlpha(100);
         js_r.setOffset(90);
@@ -261,18 +247,15 @@ public class PIDTest extends Activity implements View.OnClickListener{
             public boolean onTouch(View arg0, MotionEvent arg1) {
                 js_r.drawStick(arg1);
                 flag = 1;
+
                 if (arg1.getAction() == MotionEvent.ACTION_DOWN
                         || arg1.getAction() == MotionEvent.ACTION_MOVE) {
-                    //onHandler1();
                     textViewR_3.setText("Angle : " + String.valueOf(js_r.getAngle()));
                     textViewR_4.setText("Distance : " + String.valueOf(js_r.getDistance()));
 
-//                    socket_out.println("Angle2 : " + String.valueOf(js_r.getAngle()));
-//                    socket_out.println("Distance2 : " + String.valueOf(js_r.getDistance()));
+
                     float js_rA = js_r.getAngle();
                     float js_rD = js_r.getDistance();
-//                    socket_out.println("A2:" + (int) js_rA);
-//                    socket_out.println("D2:" + (int) js_rD);
 
 
                 } else if (arg1.getAction() == MotionEvent.ACTION_UP) {
@@ -280,12 +263,46 @@ public class PIDTest extends Activity implements View.OnClickListener{
                     textViewR_3.setText("Angle :");
                     textViewR_4.setText("Distance :");
 
-//                    socket_out.println("A2:" + 0);
-//                    socket_out.println("D2:" + 0);
+
+                    flag = 0;
+                    socket_out.println("S150" + "*" + "C150" + "*");
+
                 }
                 return true;
             }
         });
+
+
+
+        js_l = new JoyStickClass(getApplicationContext()
+                , layout_joystickL, R.drawable.image_button);
+
+        js_l.setStickSize(80, 80);
+        js_l.setLayoutSize(500, 500);
+        js_l.setLayoutAlpha(150);
+        js_l.setStickAlpha(100);
+        js_l.setOffset(90);
+        js_l.setMinimumDistance(50);
+        layout_joystickL.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+                js_l.drawStick(arg1);
+                flag_l = 1;
+
+                if (arg1.getAction() == MotionEvent.ACTION_DOWN
+                        || arg1.getAction() == MotionEvent.ACTION_MOVE) {
+
+
+                } else if(arg1.getAction() == MotionEvent.ACTION_UP) {
+
+
+
+                    flag_l = 0;
+
+                }
+                return true;
+            }
+        });
+
     }
 
 
@@ -299,40 +316,46 @@ public class PIDTest extends Activity implements View.OnClickListener{
             public void run() {
                 Log.d("angle", " "+ js_r.getAngle());
                 Log.d("distance", " "+ js_r.getDistance());
-
-
-//                js_rA = Double.toString(js_r.getAngle());
-//                js_rD = Double.toString(js_r.getDistance());
-
-
-
                 int rd = (int)js_r.getDistance();
+                int ld = (int)js_l.getDistance();
 
+                double cos = Math.cos(Math.toRadians(js_r.getAngle())) * 50 * rd;
+                double sin = Math.sin(Math.toRadians(js_r.getAngle())) * 50 * rd;
+                double cos_l = Math.cos(Math.toRadians(js_l.getAngle())) * 50 * ld;
+                double sin_l = Math.sin(Math.toRadians(js_l.getAngle())) * 50 * ld;
 
-                double cos = Math.cos(js_r.getAngle()) * 50 * rd;
-                double sin = Math.sin(js_r.getAngle()) * 50 * rd;
-
-
-                int rs = (int)sin;
-                int rc = (int)cos;
-
+                int rs = (int)sin + 150;
+                int rc = (int)cos + 150;
+                int ls = (int)sin_l + 150;
+                int lc = (int)cos_l + 150;
 
                 js_rS = String.valueOf(rs);
                 js_rC = String.valueOf(rc);
-                js_rD = String.valueOf(rd);
+                js_lS = String.valueOf(ls);
+                js_lC = String.valueOf(lc);
 
 
-                socket_out.println("S"+js_rS+"*"+"C"+js_rC+"*");
+                if(flag == 1) {
+                    socket_out.println("S" + js_rS + "*" + "C" + js_rC + "*");
+                    Log.d("roll, pitch", " " + js_rS + "/" + js_rC);
 
+                }
+                if(flag_l == 1){
+                    socket_out.println("H" + js_lS + "*" + "Y" + js_lC + "*");
+                    Log.d("Height, yaw" , " " + js_lS + "/" +js_lC);
+
+                }
+                flag = 0;
+                flag_l = 0;
 
                 //socket_out.println("A" + js_rA + "D" + js_rD + "A" + js_rA + "D" + js_rD);
                 //socket_out.println("D" + js_rD);
 
-                mHandler.postDelayed(r, 500);
+                mHandler.postDelayed(r, 200);
 
             }
         };
-        mHandler.postDelayed(r, 500);
+        mHandler.postDelayed(r, 200);
     }
 
 
@@ -371,21 +394,12 @@ public class PIDTest extends Activity implements View.OnClickListener{
         }
 
 
-        if(array[2].equals("Angle")){
+        if(array[0].equals("Angle")){
             //이면 roll , pitch, yaw가 3, 4, 5에 들어가게
-            setdata[0].setText(array[3]);
-            setdata[1].setText(array[4]);
-            setdata[2].setText(array[5]);
 
-            double height = Double.valueOf(array[6]);
-            double data = height * 0.01;
-            double result = Math.round(data*100d) / 100d;
 
-            setdata[6].setText(String.valueOf(result));
-
-            rollList.add(array[3]);
-            pitchList.add(array[4]);
-            yawList.add(array[5]);
+            setdata[0].setText("SET");
+            socket_out.println("F");
         }
 //        else if(array[2].equals("Value")){
 //            setdata[3].setText(array[3]);
@@ -442,7 +456,7 @@ public class PIDTest extends Activity implements View.OnClickListener{
                 socket_out.println("D"+Kd_value+"*");
             }
             else if (v == start_btn) {
-                Start_value = 3000;
+                Start_value = 3570;
                 int data = Start_value * 10;
                 setdata[7].setText(String.valueOf(data));
                 socket_out.println("T"+Start_value+"*");
@@ -492,26 +506,27 @@ public class PIDTest extends Activity implements View.OnClickListener{
                 Kd_value += 10;
                 double data = Kd_value * 0.01;
                 double result = Math.round(data*100d) / 100d;
-                setdata[5].setText(String.valueOf(result));
-                socket_out.println("D" + Kd_value + "*");
-            }
-            else if(v == down3_btn10){
-                Kd_value -= 10;
-                double data = Kd_value * 0.01;
-                double result = Math.round(data*100d) / 100d;
-                setdata[5].setText(String.valueOf(result));
-                socket_out.println("D" + Kd_value + "*");
-            }
-//            else if(v == graph_btn) {
+    setdata[5].setText(String.valueOf(result));
+    socket_out.println("D" + Kd_value + "*");
+}
+else if(v == down3_btn10){
+        Kd_value -= 10;
+        double data = Kd_value * 0.01;
+        double result = Math.round(data*100d) / 100d;
+        setdata[5].setText(String.valueOf(result));
+        socket_out.println("D" + Kd_value + "*");
+        }
+        else if(v == landing_btn) {
+        socket_out.println("L");
 //                Intent intent = new Intent(this, GraphActivity.class);
 //                intent.putStringArrayListExtra("roll", rollList);
 //                intent.putStringArrayListExtra("pitch", pitchList);
 //                intent.putStringArrayListExtra("yaw", yawList);
-//
-//                startActivity(intent);
-//            }
 
-    }
+//                startActivity(intent);
+        }
+
+        }
 
 
 }

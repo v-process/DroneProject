@@ -34,11 +34,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Vector;
 
 public class MapsActivity extends FragmentActivity {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    public int flag = 0;
+    int flag = 0;
+    int flag_l = 0;
 
 
     RelativeLayout layout_joystickR, layout_joystickL;
@@ -48,35 +54,65 @@ public class MapsActivity extends FragmentActivity {
 
     JoyStickClass js_r, js_l;
 
+    private Socket socket;
+    BufferedReader socket_in;
+    PrintWriter socket_out;
+    String data;
 
+
+    String js_rC ;
+    String js_rS ;
+    String js_rD ;
+    String js_lC ;
+    String js_lS ;
+    String js_lD ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buttonmap);
 
-
-        textViewR_1 = (TextView)findViewById(R.id.textViewR_1);
-        textViewR_2 = (TextView)findViewById(R.id.textViewR_2);
-        textViewR_3 = (TextView)findViewById(R.id.textViewR_3);
-        textViewR_4 = (TextView)findViewById(R.id.textViewR_4);
-        textViewR_5 = (TextView)findViewById(R.id.textViewR_5);
-        textViewL_1 = (TextView)findViewById(R.id.textViewL_1);
-        textViewL_2 = (TextView)findViewById(R.id.textViewL_2);
-        textViewL_3 = (TextView)findViewById(R.id.textViewL_3);
-        textViewL_4 = (TextView)findViewById(R.id.textViewL_4);
-        textViewL_5 = (TextView)findViewById(R.id.textViewL_5);
+        onHandler1();
 
         layout_joystickR = (RelativeLayout)findViewById(R.id.layout_joystickR);
         layout_joystickL = (RelativeLayout)findViewById(R.id.layout_joystickL);
-
-
-
-
         joystick_func();
+        Thread worker = new Thread() {
+            public void run() {
+                try {
+                    socket = new Socket("192.168.1.7", 5555);//집
+                    //socket = new Socket("172.16.101.73", 5555);//somacenter
+                    //socket = new Socket("192.168.4.1", 3002);//banana
+                    socket_out = new PrintWriter(socket.getOutputStream(), true);
+                    socket_in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    while (true) {
+                        data = socket_in.readLine();
+//                        output.post(new Runnable() {
+//                            public void run() {
+//                                output.setText(data);
+//                            }
+//                        });
+                    }
+                } catch (Exception e) {
+                }
+            }
+        };
+        worker.start();
+    }
 
-
-
+    @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        super.onStop();
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
        // load GPS( GPS 로 부터 현재의 내 위치값 가져오기 )
@@ -85,7 +121,70 @@ public class MapsActivity extends FragmentActivity {
     }
 
 
+    private Handler mHandler;
+    private Runnable r;
 
+    private void onHandler1() {
+        mHandler = new Handler();
+        r = new Runnable() {
+            @Override
+            public void run() {
+                Log.d("angle", " "+ js_r.getAngle());
+                Log.d("distance", " "+ js_r.getDistance());
+
+
+//                js_rA = Double.toString(js_r.getAngle());
+//                js_rD = Double.toString(js_r.getDistance());
+
+                int rd = (int)js_r.getDistance();
+                int ld = (int)js_l.getDistance();
+
+
+//                double cos = Math.cos(js_r.getAngle()) * 50 * rd;
+//                double sin = Math.sin(js_r.getAngle()) * 50 * rd;
+
+                double cos = Math.cos(Math.toRadians(js_r.getAngle())) * 50 * rd;
+                double sin = Math.sin(Math.toRadians(js_r.getAngle())) * 50 * rd;
+
+                double cos_l = Math.cos(Math.toRadians(js_l.getAngle())) * 50 * ld;
+                double sin_l = Math.sin(Math.toRadians(js_l.getAngle())) * 50 * ld;
+
+//                int rs = (int)sin;
+//                int rc = (int)cos;
+
+                int rs = (int)sin + 150;
+                int rc = (int)cos + 150;
+
+                int ls = (int)sin_l + 150;
+                int lc = (int)cos_l + 150;
+
+
+                js_rS = String.valueOf(rs);
+                js_rC = String.valueOf(rc);
+                js_rD = String.valueOf(rd);
+
+                js_lS = String.valueOf(ls);
+                js_lC = String.valueOf(lc);
+                js_lD = String.valueOf(ld);
+
+                if(flag == 1) {
+                    socket_out.println("S" + js_rS + "*" + "C" + js_rC + "*");
+                }
+                if(flag_l == 1){
+                    socket_out.println("H" + js_lS + "*" + "Y" + js_lC + "*");
+                }
+
+                flag = 0;
+                flag_l = 0;
+                //socket_out.println("A" + js_rA + "D" + js_rD + "A" + js_rA + "D" + js_rD);
+                //socket_out.println("D" + js_rD);
+
+                mHandler.postDelayed(r, 200);
+
+            }
+        };
+        mHandler.postDelayed(r, 200);
+    }
 
     public void joystick_func(){
 
@@ -100,46 +199,36 @@ public class MapsActivity extends FragmentActivity {
         js_r.setStickAlpha(100);
         js_r.setOffset(90);
         js_r.setMinimumDistance(50);
+
+
+
         layout_joystickR.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View arg0, MotionEvent arg1) {
                 js_r.drawStick(arg1);
                 if (arg1.getAction() == MotionEvent.ACTION_DOWN
                         || arg1.getAction() == MotionEvent.ACTION_MOVE) {
-                    textViewR_1.setText("X : " + String.valueOf(js_r.getX()));
-                    textViewR_2.setText("Y : " + String.valueOf(js_r.getY()));
-                    textViewR_3.setText("Angle : " + String.valueOf(js_r.getAngle()));
-                    textViewR_4.setText("Distance : " + String.valueOf(js_r.getDistance()));
+                    flag = 1;
 
-                    int direction = js_r.get8Direction();
-                    if (direction == JoyStickClass.STICK_UP) {
-                        textViewR_5.setText("Direction : Up");
-                    } else if (direction == JoyStickClass.STICK_UPRIGHT) {
-                        textViewR_5.setText("Direction : Up Right");
-                    } else if (direction == JoyStickClass.STICK_RIGHT) {
-                        textViewR_5.setText("Direction : Right");
-                    } else if (direction == JoyStickClass.STICK_DOWNRIGHT) {
-                        textViewR_5.setText("Direction : Down Right");
-                    } else if (direction == JoyStickClass.STICK_DOWN) {
-                        textViewR_5.setText("Direction : Down");
-                    } else if (direction == JoyStickClass.STICK_DOWNLEFT) {
-                        textViewR_5.setText("Direction : Down Left");
-                    } else if (direction == JoyStickClass.STICK_LEFT) {
-                        textViewR_5.setText("Direction : Left");
-                    } else if (direction == JoyStickClass.STICK_UPLEFT) {
-                        textViewR_5.setText("Direction : Up Left");
-                    } else if (direction == JoyStickClass.STICK_NONE) {
-                        textViewR_5.setText("Direction : Center");
-                    }
+//                    socket_out.println("Angle2 : " + String.valueOf(js_r.getAngle()));
+//                    socket_out.println("Distance2 : " + String.valueOf(js_r.getDistance()));
+                    float js_rA = js_r.getAngle();
+                    float js_rD = js_r.getDistance();
+//                    socket_out.println("A2:" + (int) js_rA);
+//                    socket_out.println("D2:" + (int) js_rD);
+
+
                 } else if (arg1.getAction() == MotionEvent.ACTION_UP) {
-                    textViewR_1.setText("X :");
-                    textViewR_2.setText("Y :");
-                    textViewR_3.setText("Angle :");
-                    textViewR_4.setText("Distance :");
-                    textViewR_5.setText("Direction :");
+
+
+                    flag = 0;
+                    socket_out.println("S150" + "*" + "C150" + "*");
+
+
                 }
                 return true;
             }
         });
+
 
         js_l = new JoyStickClass(getApplicationContext()
                 , layout_joystickL, R.drawable.image_button);
@@ -155,37 +244,17 @@ public class MapsActivity extends FragmentActivity {
                 js_l.drawStick(arg1);
                 if (arg1.getAction() == MotionEvent.ACTION_DOWN
                         || arg1.getAction() == MotionEvent.ACTION_MOVE) {
-                    textViewL_1.setText("X : " + String.valueOf(js_l.getX()));
-                    textViewL_2.setText("Y : " + String.valueOf(js_l.getY()));
-                    textViewL_3.setText("Angle : " + String.valueOf(js_l.getAngle()));
-                    textViewL_4.setText("Distance : " + String.valueOf(js_l.getDistance()));
+                    flag_l = 1;
 
-                    int direction = js_l.get8Direction();
-                    if(direction == JoyStickClass.STICK_UP) {
-                        textViewL_5.setText("Direction : Up");
-                    } else if(direction == JoyStickClass.STICK_UPRIGHT) {
-                        textViewL_5.setText("Direction : Up Right");
-                    } else if(direction == JoyStickClass.STICK_RIGHT) {
-                        textViewL_5.setText("Direction : Right");
-                    } else if(direction == JoyStickClass.STICK_DOWNRIGHT) {
-                        textViewL_5.setText("Direction : Down Right");
-                    } else if(direction == JoyStickClass.STICK_DOWN) {
-                        textViewL_5.setText("Direction : Down");
-                    } else if(direction == JoyStickClass.STICK_DOWNLEFT) {
-                        textViewL_5.setText("Direction : Down Left");
-                    } else if(direction == JoyStickClass.STICK_LEFT) {
-                        textViewL_5.setText("Direction : Left");
-                    } else if(direction == JoyStickClass.STICK_UPLEFT) {
-                        textViewL_5.setText("Direction : Up Left");
-                    } else if(direction == JoyStickClass.STICK_NONE) {
-                        textViewL_5.setText("Direction : Center");
-                    }
+
                 } else if(arg1.getAction() == MotionEvent.ACTION_UP) {
-                    textViewL_1.setText("X :");
-                    textViewL_2.setText("Y :");
-                    textViewL_3.setText("Angle :");
-                    textViewL_4.setText("Distance :");
-                    textViewL_5.setText("Direction :");
+
+//                    socket_out.println("A1:" + 0);
+//                    socket_out.println("D1:" + 0);
+
+                    flag_l = 0;
+                    socket_out.println("H150" + "*" + "Y150" + "*");
+
                 }
                 return true;
             }
@@ -262,12 +331,7 @@ public class MapsActivity extends FragmentActivity {
 //                        flag = 1;
 //                        Log.i("tag", "클릭한 지점:" + latLng);
 //                    }
-
-
-
                         //flag = 0;
-
-
 
                        // if(flag == 1) {
                             mMap.clear();
@@ -295,8 +359,26 @@ public class MapsActivity extends FragmentActivity {
                             //랜스값 찍고.
                             markerOptions.position(latLng); //마커위치설정
 
-                            mMap.addMarker(markerOptions); //마커 생성
+                    mMap.addMarker(markerOptions); //마커 생성
 
+                    int lati_hour = (int)latLng.latitude;
+                    double lati_min = (latLng.latitude - lati_hour) * 60;
+                    String lati_hour_str = String.valueOf(lati_hour);
+                    String lati_min_str = String.valueOf(lati_min);
+
+
+                    int long_hour = (int)latLng.longitude;
+                    double long_min = (latLng.longitude - long_hour) * 60;
+                    String long_hour_str = String.valueOf(long_hour);
+                    String long_min_str = String.valueOf(long_min);
+
+
+                    Log.d("위도경도 반환", "위도"+lati_hour_str + lati_min_str + "   경도" + long_hour_str + long_min_str);
+
+                    //위도경도를 GPAGA로 변환한 값.
+                    //socket_out.println("latitude" + lati_hour_str + lati_min_str + "*" + "longitude" + long_hour_str + long_min_str + "*");
+
+                    //socket_out.println("LastLocation : " + latLng.latitude + " / " + latLng.longitude);
                             flag = 0;
                       //  }
 
@@ -327,7 +409,6 @@ public class MapsActivity extends FragmentActivity {
      */
     private void setUpMap() {
         GpsInfo gps = new GpsInfo(MapsActivity.this);
-
         // GPS 사용유무 가져오기
         if (gps.isGetLocation()) {
             Log.d("connect", "성공.....");
@@ -340,13 +421,21 @@ public class MapsActivity extends FragmentActivity {
 
             mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.currentlocation)).position(new LatLng(latLng_s.latitude, latLng_s.longitude)).title("현재위치입니다.."));
             LatLng startingPoint = new LatLng(latLng_s.latitude, latLng_s.longitude);
+
+
+             //   socket_out.println("CurrentLocation : " + latLng_s.latitude + " / " + latLng_s.longitude);
+           // socket_out.println("CurrentLocation : " + latLng_s.latitude + "/" + latLng_s.longitude);
+
+            Log.d("currentlocationtest", latLng_s.latitude + " / " + latLng_s.longitude + "result" + latLng_s);
+
+
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startingPoint, 16));
 
+
+
+
         }
-
-
     else {
-
             //Log.d("Connect", "sdnklasdnkldsa늬의의의느이ㅡ이능ㅇ!@@@@@@@@@@@"+location);
 
             //여긴 현재위치 찍어야해
@@ -366,6 +455,9 @@ public class MapsActivity extends FragmentActivity {
 
 
     }
+
+
+
 
 
 }

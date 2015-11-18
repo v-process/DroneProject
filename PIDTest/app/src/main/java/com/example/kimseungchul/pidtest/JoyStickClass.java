@@ -123,14 +123,14 @@ public class JoyStickClass {
             if (distance == 0) {
                 return 0;
             }
-            else if(distance >= 1 && distance <= 64){
+            else if(distance >= 1 && distance <= 150){
                 return 1;
             }
-            else if(distance >= 65 && distance <= 128){
+            else if(distance >= 151 && distance <= 170){
                 return 2;
             }
             else{
-                return 3;
+                return 2;
             }
 
 

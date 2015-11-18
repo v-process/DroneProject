@@ -18,41 +18,7 @@
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/layout_joystickR"
             android:layout_toStartOf="@+id/layout_joystickR">
-            <TextView
-                android:id="@+id/textViewR_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="X"
-                android:textColor="#444444"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/textViewR_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Y"
-                android:textColor="#444444"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/textViewR_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Angle"
-                android:textColor="#444444"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/textViewR_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Distance"
-                android:textColor="#444444"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/textViewR_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Direction"
-                android:textColor="#444444"
-                android:textSize="20dp" />
+
 
         </LinearLayout>
 
@@ -64,41 +30,7 @@
             android:layout_margin="30dp"
             android:orientation="vertical"
             android:id="@+id/linearLayout">
-            <TextView
-                android:id="@+id/textViewL_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="X"
-                android:textColor="#444444"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/textViewL_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Y"
-                android:textColor="#444444"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/textViewL_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Angle"
-                android:textColor="#444444"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/textViewL_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Distance"
-                android:textColor="#444444"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/textViewL_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Direction"
-                android:textColor="#444444"
-                android:textSize="20dp" />
+
         </LinearLayout>
 
         <RelativeLayout
