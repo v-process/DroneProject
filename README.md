@@ -1,6 +1,6 @@
 # DroneProject
 ##드론 개발 진행
-![img](./Photo/BananaDrone.PNG)
+![img](./Photo/BananaDrone.png)
 
 ###목표
 1. DIY 드론을 위한 정보 공유
