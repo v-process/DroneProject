@@ -16,3 +16,11 @@
 ####소켓 서버 (ServerTest.java)
 - 드론과 통신 테스트 전에 만들었으며 클라이언트에서 접속하는 이상 유무에 대해 알기 위해 만듦
 - 클라이언트에서 주는값을 print하고 처음 roll, pitch, yaw 등의 값을 보내주어 안드로이드에서 이 값을 볼 수 있다.
+
+####Drone Firmware
+- Hexa Copter
+- ARM Cortex-m3 STM32F103RET6 보드
+- C Language
+- 9축센서, 초음파 센서, GPS 모듈 Wifi 모듈을 탑제 
+- Wifi -Module을 이용하여 Android App과 연동
+- 호버링 및 위치 이동 컨트롤 가능
