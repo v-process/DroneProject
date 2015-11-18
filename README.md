@@ -8,9 +8,9 @@
   -드론의 기본적인 기술을 구현하고, GPS를 이용한 특정 지점까지 드론이 자율 비행하는 기술을 구현한다. 
 
 ###시스템 구조도
+![img](./Photo/전체시스템.PNG)
 
-
-###Drone Firmware
+###Drone Firmware (STM32F103RET6)
 - Hexa Copter
 - ARM Cortex-m3 STM32F103RET6 보드
 - C Language
@@ -19,26 +19,50 @@
 - 호버링 및 위치 이동 컨트롤 가능
 
 ####사용 부품
+|  NO  |  항목  |  부품명  |  수량  |
+| :------: | ------ | ------ | --------:|
+| 1 | 멀티콥터 프레임 | [TAROT] FY690S 헥사콥터 ARF Set | 1 |
+| 2 | ARM Board | STM32_64P MCU Board | 2 |
+| 3 | AHRS | EBIMU-9DOFV2 (AHRS, 자이로3축,가속도3축,지자기3축) | 1 |
+| 4 | 대기압 센서 | Barometric Pressure Sensor Module : LPS25 | 1 |
+| 5 | WiFi Module | WiFi Module - ESP8266 [WRL-13678] | 1 |
+| 6 | GPS Module | 고정밀 GPS보드 [AKBU5] USB 출력=USB 출력, 안테나 타입=SMA, 안테나=안테나, 커넥터=6핀 커넥터 | 1 |
+| 7 | 배터리 | 22.2v 6s 5400ma (35~70c) 리튬폴리머 배터리 | 2 | 
+| 8 | 전압 체커 | 리튬 폴리머 전압 체커 및저전압 경보장치 (1~8셀 / 3.7v ~ 29.6v) | 1 |
+| 9 | UBEC | UBEC DC/DC Step-Down (Buck) Converter - 5V @ 3A output | 1 |
+| 10 | LED | PP592-8L63-Star 3W Yellow Power LED | 4 |
+| 11 | LED | PP625-8L63-Star 3W RED Power LED | 2 |
+| 12 | 프로펠러 | APC 12X3.8SFP 역피치 Prop | 3 |
+| 13 | 프로펠러 | APC 12X3.8SF 전동용 Prop | 3 |
+| 14 | 프롭가드 | 헥사콥터_EPP프롭가드 | 1 |
 
 ####회로도
+![img](./Photo/회로도.jpeg)
+
 
 ####ESC 세팅
 -	ESC(전자변속기)는 BLDC모터를 제어하기 위한 모듈.
 -	대부분의 ESC는 PWM파형으로 제어하며, 그 주기는 50Hz 또는 400Hz이다.
 -	ESC를 세팅하기 위해선 제조사 마다 다르지만 일반적으로 출력파형을– 30% - 0% ->50% 순으로 주면 된다. 
 
+
 ####PID 제어
 -	비례, 적분, 미분 제어를 통해 원하는 목표치에 수렴하기 위한 제어 시스템
 -	P(비례) 제어 : 현재 값과 목표 값에 대한 오차 비례를 통해 그 값을 제어
 -	I(적분) 제어 : 오차 값을 꾸준히 누적하여 정상 오차를 제거하기 위해 사용
 -	D(미분) 제어 : 이전 오차와 현재 오차의 차이를 통해 오버슈트를 제거하는 목적으로 목표치에 빠르고 정확하게 도달하기 위해 사용하는 제어
+![img](./Photo/PID1.PNG)
 
 -	헥사콥터이기 때문에 각 축에 따른 PID 제어 값을 다르게 설정해주어야 한다. 아래의 그림은 모터의 위치와 제어 축에 따른 제어 비 이다.
+![img](./Photo/PID2.jpg)
+
 
 ####3D 프린트
 -	초음파 센서의 장착과 ESC, LED 장착을 위해 설계
 -	Roll, Pitch 축의 PID 제어 테스트를 위해 제작
 -	Solid Works 2013 프로그램을 통해 제작
+![img](./Photo/3D.jpeg)
+
 
 ###휴대폰 어플 (WifiTest)
 - AP확인 (휴대폰에서 드론시에만 메인페이지로 넘어갈 수 있게끔 함. 이를 위해서 현재 나의 와이파이 연결 상태와 접속한 와이파이를 비교한다.)
